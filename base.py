@@ -21,7 +21,7 @@ def simple_redis_cache(redis_client, ttl: int = 60) -> Callable:
             # Serialize function arguments, with sorted kwargs for consistency
             sorted_kwargs = tuple(sorted(kwargs.items()))  # Sort kwargs by key => list of tuples
             key_data = pickle.dumps((args, sorted_kwargs))  # Serialize args + sorted kwargs
-            key_hash = hashlib.md5(key_data).hexdigest()  # Create MD5 hash of the serialized data
+            key_hash = hashlib.sha256(key_data).hexdigest()  # Create MD5 hash of the serialized data
 
             # Construct Redis key with function name and hash
             redis_key = f"{func.__name__}:{key_hash}"

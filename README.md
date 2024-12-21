@@ -172,9 +172,6 @@ pytest
 - **Use Pickle Cautiously**: Pickle is a powerful serialization tool but can execute arbitrary code if untrusted data is deserialized. Ensure that Redis is in a trusted environment to avoid malicious code injection.
 - **Secure Redis**: Deploy Redis with proper authentication and access controls in production.
 
-### 2. Key Collisions
-Hash collisions are extremely rare with an MD5 hash but possible. If you're caching a large amount of data with very similar input arguments, consider using a more robust hashing function like SHA-256.
-
 ---
 
 ## Limitations
