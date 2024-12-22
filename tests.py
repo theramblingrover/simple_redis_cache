@@ -101,12 +101,14 @@ def test_cache_eviction_via_ttl(redis_client):
     assert result == 5  # Computed again
 
 def test_cache_complex_structure(redis_client):
-    complex_obj = lambda: ComplexClass(10)
-    cached_complex = simple_redis_cache(redis_client, ttl=120)(complex_obj)
+    complex_obj = ComplexClass(10)
+    complex_obj.property_1 = 20
+    complex_obj.property_2 = 30
+    cached_complex = simple_redis_cache(redis_client, ttl=120)(lambda: complex_obj)
     result = cached_complex()
 
-    assert result.method_1() == 20
-    assert result.method_2() == 30
+    assert result.method_1() == 30
+    assert result.method_2() == 40
     assert result.val == 10
-    assert result.property_1 == 10
-    assert result.property_2 == 20
+    assert result.property_1 == 20
+    assert result.property_2 == 30
